@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -158,6 +158,21 @@ public partial class Resturent : System.Web.UI.Page
         DataAccessCls dObj = new DataAccessCls();
         DataTable dt = dObj.RunSP_ReturnDT("pRestaurantsDelete", param, ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
         string json = JsonConvert.SerializeObject(dt);
+        if (!string.IsNullOrEmpty(json))
+        {
+            if (System.IO.Directory.Exists(HttpContext.Current.Server.MapPath("~/Upload/RestauMenus/") + id + "/"))
+            {
+                System.IO.Directory.Delete(HttpContext.Current.Server.MapPath("~/Upload/RestauMenus/") + id + "/",true);
+            }
+            if (System.IO.Directory.Exists(HttpContext.Current.Server.MapPath("~/Upload/RestauDocs/") + id + "/"))
+            {
+                System.IO.Directory.Delete(HttpContext.Current.Server.MapPath("~/Upload/RestauDocs/") + id + "/", true);
+            }
+            if (System.IO.Directory.Exists(HttpContext.Current.Server.MapPath("~/Upload/RestauPics/") + id + "/"))
+            {
+                System.IO.Directory.Delete(HttpContext.Current.Server.MapPath("~/Upload/RestauPics/") + id + "/", true);
+            }
+        }
         return json;
     }
 
