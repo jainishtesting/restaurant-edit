@@ -1,4 +1,4 @@
-﻿
+
 var dt;
 var menus = [];
 var defaultpics = [];
@@ -89,6 +89,16 @@ function getRestaurants() {
     getHighLights();
     getCousines();
 
+    $("#frmEdit").find(".form-control").each(function (i, ele) {
+        $(ele).attr("readonly", "readonly");
+    });
+
+    $("#frmEdit").find("select").each(function (i, ele) {
+        if (!$(ele).hasClass("multiselect")) {
+            $(ele).attr("readonly", "readonly");
+        }
+    });
+
     var current = $('#txtCity').typeahead("getActive");
     var obj = {
         key: $('#txtKeyword').val(),
@@ -112,6 +122,135 @@ function getRestaurants() {
         }
     });
 }
+$("#frmEdit input[name=rdReservation]").change(function (ele) {
+    var obj = {
+        fieldname: $(ele.target).data("fieldname"),
+        value: $(ele.target).val(),
+        id: $('#hdnId').val()
+    }
+    $.ajax({
+        url: "Resturent.aspx/updateValues",
+        data: JSON.stringify(obj),
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+            if (res != null && res.d != null && res.d != undefined) {
+            }
+        },
+        error: function (e) {
+        }
+    });
+})
+
+$("#frmEdit .form-control").on("click", function () {
+    $(this).parent().find(".form-control").removeAttr("readonly")
+    if ($(this).parent().find(".form-control").prop("readonly")) {
+        $(this).parent().find(".form-control").prop("readonly", false);
+    }
+});
+
+$("#frmEdit .payment").change(function (ele) {
+    var payment = '';
+    $(".payment").each(function (i, ele) {
+        if ($(ele).is(":checked")) {
+            payment += $(ele).val() + ",";
+        }
+    });
+    if (payment !== '') {
+        payment = payment.slice(0, -1)
+    }
+    var obj = {
+        fieldname: $(ele.target).data("fieldname"),
+        value: payment,
+        id: $('#hdnId').val()
+    }
+    $.ajax({
+        url: "Resturent.aspx/updateValues",
+        data: JSON.stringify(obj),
+        type: "POST",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        success: function (res) {
+            if (res != null && res.d != null && res.d != undefined) {
+            }
+        },
+        error: function (e) {
+        }
+    });
+})
+$("#frmEdit .form-control").focusout(function (ele) {
+    $(ele.target).attr("readonly", "readonly");
+})
+$("#frmEdit .form-control").change(function (ele) {
+    if ($(ele.target).val() != "") {
+        var valid = true;
+        if (ele.target.id == "txtWebAddress") {
+            if (checkValidAddress()) {
+                $("#errWebsite").fadeOut();
+            }
+            else {
+                $("#errWebsite").fadeIn();
+                valid = false;
+            }
+        }
+        if (ele.target.id == "txtPinCode") {
+            if ($.isNumeric($("#txtPinCode").val())) {
+                $("#errPincode").fadeOut();
+            }
+            else {
+                $("#errPincode").fadeIn();
+                valid = false;
+            }
+        }
+        if (ele.target.id == "txtPrice") {
+            if ($.isNumeric($("#txtPrice").val())) {
+                $("#errPrice").fadeOut();
+            }
+            else {
+                $("#errPrice").fadeIn();
+                valid = false;
+            }
+        }
+        if (ele.target.id == "txtContactNo") {
+            if ($.isNumeric($("#txtContactNo").val())) {
+                $("#errContact").fadeOut();
+            }
+            else {
+                $("#errContact").fadeIn();
+                valid = false;
+            }
+        }
+        if (valid) {
+            if ($(ele.target).data("fieldname") != 'Location') {
+                var obj = {
+                    fieldname: $(ele.target).data("fieldname"),
+                    value: $(ele.target).val(),
+                    id: $('#hdnId').val()
+                }
+                $.ajax({
+                    url: "Resturent.aspx/updateValues",
+                    data: JSON.stringify(obj),
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    success: function (res) {
+                        if (res != null && res.d != null && res.d != undefined) {
+                            $(ele.target).attr("readonly", "readonly");
+                        }
+                    },
+                    error: function (e) {
+                    }
+                });
+            }
+        }
+    }
+})
+$("#frmEdit label").click(function (evt) {
+    if ($(evt.target).parent().find(".form-control").prop("readonly")) {
+        $(evt.target).parent().find(".form-control").prop("readonly", false);
+    }
+})
 
 function getCousines() {
     $.ajax({
@@ -131,7 +270,35 @@ function getCousines() {
                 $('#txtCuisine').multiselect({
                     buttonWidth: '100%',
                     includeSelectAllOption: true,
-                    maxHeight: 200
+                    maxHeight: 200,
+                    onChange: function (element, checked) {
+                        var cuisines = '';
+                        var selectedcuisines = $('#txtCuisine option:selected');
+                        for (var i = 0; i < selectedcuisines.length; i++) {
+                            cuisines += selectedcuisines[i].value + ",";
+                        }
+                        if (cuisines !== '') {
+                            cuisines = cuisines.slice(0, -1)
+                        }
+                        var obj = {
+                            fieldname: 'Cuisine',
+                            value: cuisines,
+                            id: $('#hdnId').val()
+                        }
+                        $.ajax({
+                            url: "Resturent.aspx/updateValues",
+                            data: JSON.stringify(obj),
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (res) {
+                                if (res != null && res.d != null && res.d != undefined) {
+                                }
+                            },
+                            error: function (e) {
+                            }
+                        });
+                    }
                     //dropUp: true
                 });
             }
@@ -151,13 +318,41 @@ function getHighLights() {
                 var restauHighlights = $('#restauHighlights');
                 restauHighlights.empty();
                 $.each(jsonres, function (i, ele) {
-                    //restauHighlights.append("<input type='checkbox' class='restauHighlights' value='" + ele.id + "'> " + ele.name + "<br />");
                     restauHighlights.append("<option value='" + ele.id + "'> " + ele.name + "</option>");
                 });
                 $('#restauHighlights').multiselect({
                     buttonWidth: '100%',
                     includeSelectAllOption: true,
-                    maxHeight: 200
+                    maxHeight: 200,
+                    onChange: function (element, checked) {
+                        var Highlights = '';
+                        var selectedHighlights = $('#restauHighlights option:selected');
+                        for (var i = 0; i < selectedHighlights.length; i++) {
+                            Highlights += selectedHighlights[i].value + ",";
+                        }
+                        if (Highlights !== '') {
+                            Highlights = Highlights.slice(0, -1)
+                        }
+                        if (Highlights !== '') {
+                            var obj = {
+                                highlights: Highlights,
+                                restauId: $('#hdnId').val()
+                            }
+                            $.ajax({
+                                url: "Resturent.aspx/updateHighlights",
+                                data: JSON.stringify(obj),
+                                type: "POST",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res != null && res.d != null && res.d != undefined) {
+                                    }
+                                },
+                                error: function (e) {
+                                }
+                            });
+                        }
+                    }
                     //dropUp: true
                 });
             }
@@ -508,7 +703,9 @@ function fnedit(id) {
         }
     });
 }
+
 function backRestaurants() {
+    getRestaurants();
     $('#frmEdit')[0].reset();
     $("#divForm").fadeOut();
     $("#divGrid").fadeIn();
@@ -766,6 +963,30 @@ $(function () {
             this.on('addedfile', function (file) {
                 menus.push(file);
             });
+            this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var formData = new FormData();
+                    formData.append("hdnId", $("#hdnId").val());
+                    $.each(menus, function (i, ele) {
+                        formData.append("filemenus" + i, ele);
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: 'FileUpload.ashx',
+                        data: formData,
+                        success: function (status) {
+                            menus = [];
+                            getRestauMenusByRestau($("#hdnId").val());
+                            Dropzone.forElement("#fileMenus").removeAllFiles(true);
+                        },
+                        processData: false,
+                        contentType: false,
+                        error: function () {
+                            alert("Whoops something went wrong!");
+                        }
+                    });
+                }
+            });
             this.on("removedfile", function (file) {
                 menus = jQuery.grep(menus, function (value) {
                     return value != file;
@@ -782,6 +1003,30 @@ $(function () {
         init: function () {
             this.on('addedfile', function (file) {
                 defaultpics.push(file);
+            });
+            this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var formData = new FormData();
+                    formData.append("hdnId", $("#hdnId").val());
+                    $.each(defaultpics, function (i, ele) {
+                        formData.append("filedefaultpics" + i, ele);
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: 'FileUpload.ashx',
+                        data: formData,
+                        success: function (status) {
+                            defaultpics = [];
+                            getRestauPicsByRestau($("#hdnId").val());
+                            Dropzone.forElement("#fileDefaultPics").removeAllFiles(true);
+                        },
+                        processData: false,
+                        contentType: false,
+                        error: function () {
+                            alert("Whoops something went wrong!");
+                        }
+                    });
+                }
             });
             this.on("removedfile", function (file) {
                 defaultpics = jQuery.grep(defaultpics, function (value) {
@@ -800,6 +1045,30 @@ $(function () {
             this.on('addedfile', function (file) {
                 otherpics.push(file);
             });
+            this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var formData = new FormData();
+                    formData.append("hdnId", $("#hdnId").val());
+                    $.each(otherpics, function (i, ele) {
+                        formData.append("fileotherpics" + i, ele);
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: 'FileUpload.ashx',
+                        data: formData,
+                        success: function (status) {
+                            otherpics = [];
+                            getRestauPicsByRestau($("#hdnId").val());
+                            Dropzone.forElement("#fileOtherPics").removeAllFiles(true);
+                        },
+                        processData: false,
+                        contentType: false,
+                        error: function () {
+                            alert("Whoops something went wrong!");
+                        }
+                    });
+                }
+            });
             this.on("removedfile", function (file) {
                 otherpics = jQuery.grep(otherpics, function (value) {
                     return value != file;
@@ -816,6 +1085,30 @@ $(function () {
         init: function () {
             this.on('addedfile', function (file) {
                 docs.push(file);
+            });
+            this.on('complete', function (file) {
+                if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                    var formData = new FormData();
+                    formData.append("hdnId", $("#hdnId").val());
+                    $.each(docs, function (i, ele) {
+                        formData.append("filedocs" + i, ele);
+                    });
+                    $.ajax({
+                        type: 'post',
+                        url: 'FileUpload.ashx',
+                        data: formData,
+                        success: function (status) {
+                            docs = [];
+                            getRestauDocsByRestau($("#hdnId").val());
+                            Dropzone.forElement("#fileDocs").removeAllFiles(true);
+                        },
+                        processData: false,
+                        contentType: false,
+                        error: function () {
+                            alert("Whoops something went wrong!");
+                        }
+                    });
+                }
             });
             this.on("removedfile", function (file) {
                 docs = jQuery.grep(docs, function (value) {
