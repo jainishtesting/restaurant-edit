@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Resturent.aspx.cs" Inherits="Resturent" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Resturent.aspx.cs" Inherits="Resturent" %>
 
 <!DOCTYPE html>
 
@@ -24,8 +24,7 @@
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&key=AIzaSyD62IxHK3Ews3H2fs9Pww97oTLB46t3srs"></script>
 
-    <script src="js/restaurant.js"></script>
-    <script src="js/restaurantmap.js"></script>
+
 
     <style type="text/css">
         .margin-top-20 {
@@ -142,6 +141,14 @@
                     <h3 class="panel-title">Restaurent Edit</h3>
                 </div>
                 <div class="panel-body">
+                    <div class="row" style="margin-bottom: 2%">
+                        <div class="col-md-12">
+                            <div class="btn-group" style="margin-top: 1%; width: 100%">
+                                <label style="color:red;float:left;font-weight:normal">* Click on labels to edit values</label>
+                                <input type="button" style="margin-right: 2%" class="btn btn-danger pull-right" id="btnCancel" onclick="backRestaurants()" value="Back to list" />
+                            </div>
+                        </div>
+                    </div>
                     <form id="frmEdit">
                         <div class="form-horizontal">
                             <input type="hidden" id="hdnUserId" />
@@ -151,19 +158,19 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtName">Name : </label>
-                                            <input type="text" class="form-control" id="txtName" name="txtName" />
+                                            <input type="text" class="form-control" id="txtName" name="txtName" data-fieldname="Name" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtState">State : </label>
-                                            <select id="txtState" name="txtState" onchange="getCityByStateId($(this))" class="form-control"></select>
+                                            <select id="txtState" name="txtState" data-fieldname="StateId" onchange="getCityByStateId($(this))" class="form-control"></select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtCityEdit">City : </label>
-                                            <select id="txtCityEdit" name="txtCityEdit" class="form-control"></select>
+                                            <select id="txtCityEdit" data-fieldname="Cityid" name="txtCityEdit" class="form-control"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -173,21 +180,21 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtOpeningTime">Opening Time : </label>
-                                            <input type="text" class="form-control datepicker" id="txtOpeningTime" name="txtOpeningTime" />
+                                            <input type="text" class="form-control datepicker" data-fieldname="OpeningTime" id="txtOpeningTime" name="txtOpeningTime" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtClosingTime">Closing Time : </label>
-                                            <input type="text" class="form-control datepicker" id="txtClosingTime" name="txtClosingTime" />
+                                            <input type="text" class="form-control datepicker" data-fieldname="ClosingTime" id="txtClosingTime" name="txtClosingTime" />
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtContactNo">Contact No : </label>
-                                            <input type="text" class="form-control number" id="txtContactNo" name="txtContactNo" />
+                                            <input type="text" class="form-control number" data-fieldname="ContactNumber" id="txtContactNo" name="txtContactNo" />
                                         </div>
-                                        <span id="errContact" style="display:none;color:red">Contact number should be number</span>
+                                        <span id="errContact" style="display: none; color: red">Contact number should be number</span>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +204,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="txtAddress">Address : </label>
-                                            <input id="txtAddress" class="form-control" placeholder="Enter your address" type="text" name="txtAddress" />
+                                            <input id="txtAddress" class="form-control" data-fieldname="Address" placeholder="Enter your address" type="text" name="txtAddress" />
                                         </div>
                                     </div>
                                 </div>
@@ -207,7 +214,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label for="txtLocation">Location : </label>
-                                            <input id="txtLocation" class="form-control" placeholder="Enter your address" type="text" name="txtLocation" />
+                                            <input id="txtLocation" class="form-control" data-fieldname="Location" placeholder="Enter your address" type="text" name="txtLocation" />
                                         </div>
                                     </div>
                                 </div>
@@ -226,16 +233,16 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtPinCode">PinCode : </label>
-                                            <input type="text" class="form-control number" id="txtPinCode" name="txtPinCode" />
+                                            <input type="text" class="form-control number" data-fieldname="PinCode" id="txtPinCode" name="txtPinCode" />
                                         </div>
-                                        <span id="errPincode" style="display:none;color:red">Pincode should be number</span>
+                                        <span id="errPincode" style="display: none; color: red">Pincode should be number</span>
                                     </div>
                                     <div class="col-md-8">
                                         <div class="form-group">
                                             <label for="txtWebAddress">Website Address : </label>
-                                            <input type="text" class="form-control" id="txtWebAddress" name="txtWebAddress" />
+                                            <input type="text" data-fieldname="Website" class="form-control" id="txtWebAddress" name="txtWebAddress" />
                                         </div>
-                                        <span id="errWebsite" style="display:none;color:red">Website Address should be url</span>
+                                        <span id="errWebsite" style="display: none; color: red">Website Address should be url</span>
                                     </div>
                                 </div>
                             </div>
@@ -244,14 +251,14 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtPrice">Price : </label>
-                                            <input type="text" class="form-control number" id="txtPrice" name="txtPrice" />
+                                            <input type="text" data-fieldname="MealPrice" class="form-control number" id="txtPrice" name="txtPrice" />
                                         </div>
-                                        <span id="errPrice"  style="display:none;color:red">Price number should be number</span>
+                                        <span id="errPrice" style="display: none; color: red">Price number should be number</span>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="txtCuisine">Cuisine : </label>
-                                            <select id="txtCuisine" multiple="multiple"></select>
+                                            <select id="txtCuisine" multiple="multiple" class="multiselect" data-fieldname="Cuisine"></select>
 
                                             <%--                                            <input type="text" class="form-control" id="txtCuisine" name="txtCuisine" />--%>
                                         </div>
@@ -261,10 +268,10 @@
                                             <label for="rdReservation">Reservation : </label>
                                             <div>
                                                 <label style="font-weight: normal">
-                                                    <input type="radio" name="rdReservation" value="Required" />
+                                                    <input type="radio" name="rdReservation" value="Required" data-fieldname="Reservation"/>
                                                     Required</label>
                                                 <label style="font-weight: normal">
-                                                    <input type="radio" name="rdReservation" value="NotRequired" />
+                                                    <input type="radio" name="rdReservation" value="NotRequired" data-fieldname="Reservation"/>
                                                     Not Required</label>
                                             </div>
                                         </div>
@@ -276,7 +283,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="restauHighlights">Highlights : </label>
-                                            <select id="restauHighlights" multiple="multiple"></select>
+                                            <select id="restauHighlights" multiple="multiple"  class="multiselect" data-fieldname="Cuisine"></select>
                                             <%--<div id="restauHighlights" style="border: 1px solid lightgray; padding: 4%; max-height: 200px; width: 60%; overflow: auto"></div>--%>
                                         </div>
                                     </div>
@@ -285,11 +292,11 @@
                                             <label for="">Payment Method : </label>
                                             <br />
                                             <label style="font-weight: normal">
-                                                <input type="checkbox" id="chckCash" class="payment" value="Cash" name="chckCash" />
+                                                <input type="checkbox" id="chckCash" class="payment" value="Cash" name="chckCash" data-fieldname="Payment"/>
                                                 Cash</label>
                                             <br />
                                             <label style="font-weight: normal">
-                                                <input type="checkbox" id="chckCard" class="payment" value="Card Accepted" name="chckCard" />
+                                                <input type="checkbox" id="chckCard" class="payment" value="Card Accepted" name="chckCard" data-fieldname="Payment"/>
                                                 Card Accepted</label>
 
                                         </div>
@@ -383,16 +390,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row" style="margin-bottom: 2%">
-                                <div class="col-md-12">
-                                    <div class="col-md-12">
-                                        <div class="btn-group" style="margin-top: 1%; width: 100%">
-                                            <input type="button" class="btn btn-success" id="btnSave" onclick="saveData()" value="Update" />
-                                            <input type="button" style="margin-left: 2%" class="btn btn-danger" id="btnCancel" onclick="backRestaurants()" value="Cancel" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </form>
                 </div>
@@ -400,5 +398,7 @@
 
         </div>
     </div>
+    <script src="js/restaurant.js"></script>
+    <script src="js/restaurantmap.js"></script>
 </body>
 </html>
