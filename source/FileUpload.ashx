@@ -1,4 +1,4 @@
-﻿<%@ WebHandler Language="C#" Class="FileUpload" %>
+<%@ WebHandler Language="C#" Class="FileUpload" %>
 
 using System;
 using System.Web;
@@ -16,79 +16,7 @@ public class FileUpload : IHttpHandler
         context.Response.ContentType = "text/plain";
         var files = context.Request.Files;
         var data = context.Request.Form;
-        List<SqlParameter> param = new List<SqlParameter>();
-        SqlParameter Id = new SqlParameter("@Id", data["hdnId"]);
-        SqlParameter userid = new SqlParameter("@userid", data["hdnUserId"]);
-        SqlParameter name = new SqlParameter("@name", data["txtName"]);
-        SqlParameter address = new SqlParameter("@address", data["txtAddress"]);
-        SqlParameter stateid = new SqlParameter("@stateid", data["txtState"]);
-        SqlParameter cityid = new SqlParameter("@cityid", data["txtCityEdit"]);
-        SqlParameter picode = new SqlParameter("@picode", data["txtPinCode"]);
-        SqlParameter contactno = new SqlParameter("@contactno", data["txtContactNo"]);
-        SqlParameter website = new SqlParameter("@website", data["txtWebAddress"]);
-        SqlParameter openingtime = new SqlParameter("@openingtime", data["txtOpeningTime"]);
-        SqlParameter closingtime = new SqlParameter("@closingtime", data["txtClosingTime"]);
-        SqlParameter lat = new SqlParameter("@lat", null);
-        SqlParameter longi = new SqlParameter("@long", null);
-        SqlParameter cuisine = new SqlParameter("@cuisine", data["txtCuisine"]);
-        SqlParameter LinkMain = new SqlParameter("@LinkMain", context.Request.Url + "?LinkId=" + data["hdnId"]);
-
-        SqlParameter payment = new SqlParameter("@payment", data["payment"]);
-        SqlParameter price = new SqlParameter("@price", data["txtPrice"]);
-        SqlParameter reservation = new SqlParameter("@reservation", data["reservation"]);
-        param.Add(Id);
-        param.Add(userid);
-        param.Add(LinkMain);
-        param.Add(name);
-        param.Add(address);
-        param.Add(stateid);
-        param.Add(cityid);
-        param.Add(cuisine);
-        
-        param.Add(picode);
-        param.Add(contactno);
-        param.Add(website);
-        param.Add(price);
-        param.Add(openingtime);
-        param.Add(closingtime);
-        param.Add(lat);
-        param.Add(longi);
-        param.Add(payment);
-        param.Add(reservation);
-
-        DataAccessCls dObj = new DataAccessCls();
-        System.Data.DataTable dt = dObj.RunSP_ReturnDT("pDataUpdates", param, System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
-        string json = JsonConvert.SerializeObject(dt);
-
-        string highlights = string.Empty;
-
-        if (data["highlights"] != null)
-        {
-            highlights = data["highlights"];
-            if (!string.IsNullOrEmpty(highlights))
-            {
-                string[] highlights1 = highlights.Split(',');
-                List<SqlParameter> delparam = new List<SqlParameter>();
-                SqlParameter restauId = new SqlParameter("@restauId", data["hdnId"]);
-                delparam.Add(restauId);
-                DataAccessCls ddlObj = new DataAccessCls();
-                ddlObj.RunSP_ReturnDT("pmstDeleteHighlightsByRestauId", delparam, System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
-
-                foreach (var highlight in highlights1)
-                {
-                    List<SqlParameter> highparam = new List<SqlParameter>();
-                    SqlParameter hId = new SqlParameter("@RestaurantId", data["hdnId"]);
-                    SqlParameter hhId = new SqlParameter("@HighlightId", highlight);
-                    List<SqlParameter> delparam1 = new List<SqlParameter>();
-                    delparam1.Add(hId);
-                    delparam1.Add(hhId);
-
-                    DataAccessCls ddlObj1 = new DataAccessCls();
-                    ddlObj1.RunSP_ReturnDT("pInsertHighlights", delparam1, System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
-                }
-            }
-        }
-
+     
         if (files.Count > 0)
         {
             foreach (var file in files)
