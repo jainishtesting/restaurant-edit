@@ -148,6 +148,9 @@ $("#frmEdit .form-control").on("click", function () {
     if ($(this).parent().find(".form-control").prop("readonly")) {
         $(this).parent().find(".form-control").prop("readonly", false);
     }
+    $(this).removeAttr("readonly");
+
+
 });
 
 $("#frmEdit .payment").change(function (ele) {
@@ -249,7 +252,8 @@ $("#frmEdit .form-control").change(function (ele) {
 $("#frmEdit label").click(function (evt) {
     if ($(evt.target).parent().find(".form-control").prop("readonly")) {
         $(evt.target).parent().find(".form-control").prop("readonly", false);
-    }
+    }  
+    $(evt.target).removeAttr("readonly");
 })
 
 function getCousines() {
@@ -271,6 +275,34 @@ function getCousines() {
                     buttonWidth: '100%',
                     includeSelectAllOption: true,
                     maxHeight: 200,
+                    onSelectAll: function (checked) {
+                        var cuisines = '';
+                        var selectedcuisines = $('#txtCuisine option:selected');
+                        for (var i = 0; i < selectedcuisines.length; i++) {
+                            cuisines += selectedcuisines[i].value + ",";
+                        }
+                        if (cuisines !== '') {
+                            cuisines = cuisines.slice(0, -1)
+                        }
+                        var obj = {
+                            fieldname: 'Cuisine',
+                            value: cuisines,
+                            id: $('#hdnId').val()
+                        }
+                        $.ajax({
+                            url: "Resturent.aspx/updateValues",
+                            data: JSON.stringify(obj),
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (res) {
+                                if (res != null && res.d != null && res.d != undefined) {
+                                }
+                            },
+                            error: function (e) {
+                            }
+                        });
+                    },
                     onChange: function (element, checked) {
                         var cuisines = '';
                         var selectedcuisines = $('#txtCuisine option:selected');
@@ -324,6 +356,35 @@ function getHighLights() {
                     buttonWidth: '100%',
                     includeSelectAllOption: true,
                     maxHeight: 200,
+                    onSelectAll: function (checked) {
+                        var Highlights = '';
+                        var selectedHighlights = $('#restauHighlights option:selected');
+                        for (var i = 0; i < selectedHighlights.length; i++) {
+                            Highlights += selectedHighlights[i].value + ",";
+                        }
+                        if (Highlights !== '') {
+                            Highlights = Highlights.slice(0, -1)
+                        }
+                        if (Highlights !== '') {
+                            var obj = {
+                                highlights: Highlights,
+                                restauId: $('#hdnId').val()
+                            }
+                            $.ajax({
+                                url: "Resturent.aspx/updateHighlights",
+                                data: JSON.stringify(obj),
+                                type: "POST",
+                                dataType: "json",
+                                contentType: "application/json; charset=utf-8",
+                                success: function (res) {
+                                    if (res != null && res.d != null && res.d != undefined) {
+                                    }
+                                },
+                                error: function (e) {
+                                }
+                            });
+                        }
+                    },
                     onChange: function (element, checked) {
                         var Highlights = '';
                         var selectedHighlights = $('#restauHighlights option:selected');
