@@ -149,8 +149,7 @@ $("#frmEdit .form-control").on("click", function () {
         $(this).parent().find(".form-control").prop("readonly", false);
     }
     $(this).removeAttr("readonly");
-
-
+    $(this).focus();
 });
 
 $("#frmEdit .payment").change(function (ele) {
@@ -249,12 +248,12 @@ $("#frmEdit .form-control").change(function (ele) {
         }
     }
 })
-$("#frmEdit label").click(function (evt) {
-    if ($(evt.target).parent().find(".form-control").prop("readonly")) {
-        $(evt.target).parent().find(".form-control").prop("readonly", false);
-    }  
-    $(evt.target).removeAttr("readonly");
-})
+//$("#frmEdit label").click(function (evt) {
+//    if ($(evt.target).parent().find(".form-control").prop("readonly")) {
+//        $(evt.target).parent().find(".form-control").prop("readonly", false);
+//    }  
+//    $(evt.target).removeAttr("readonly");
+//})
 
 function getCousines() {
     $.ajax({
