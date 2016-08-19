@@ -16,6 +16,26 @@ $(function () {
         autoclose: true
     });
     $(".datepicker").datetimepicker();
+    $(".datepicker").on("dp.change", function (e) {
+        var obj = {
+            fieldname: $(e.currentTarget).data("fieldname"),
+            value: $(e.currentTarget).val(),
+            id: $('#hdnId').val()
+        }
+        $.ajax({
+            url: "Resturent.aspx/updateValues",
+            data: JSON.stringify(obj),
+            type: "POST",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (res) {
+                if (res != null && res.d != null && res.d != undefined) {
+                }
+            },
+            error: function (e) {
+            }
+        });
+    });
 });
 function InitializeDataTable(dataset) {
     dt = $('#resturantGrid').DataTable({
@@ -456,7 +476,6 @@ function getHighlightsByRestau(restauId) {
 }
 
 function deleteImage(obj) {
-    console.log(obj);
     if (confirm("Are you sure want to delete")) {
         var rsid = $(obj).data("rsid");
         var type = $(obj).data("type");
@@ -606,7 +625,6 @@ function getRestauPicsByRestau(restauId) {
                     var isOther = false;
 
                     $.each(pics, function (i, ele) {
-                        console.log(ele);
                         var div = $("<div class='col-md-2'>");
                         var a = $("<a></a>");
                         div.css("margin-top", "10px");
@@ -712,7 +730,7 @@ function fnedit(id) {
                     }
                 }
 
-                getCityByStateId($("#txtState"));
+                getCityByStateId($("#txtState"), $(jsonres)[0].Cityid);
                 getHighlightsByRestau($(jsonres)[0].Id);
                 getRestauMenusByRestau($(jsonres)[0].Id);
                 getRestauDocsByRestau($(jsonres)[0].Id);
@@ -726,7 +744,6 @@ function fnedit(id) {
                 if ($(jsonres)[0].ClosingTime !== null && $(jsonres)[0].ClosingTime !== undefined && $(jsonres)[0].ClosingTime !== "") {
                     cDate = formatDate($(jsonres)[0].ClosingTime)
                 }
-                $("#txtCityEdit").val($(jsonres)[0].Cityid);
                 $("#txtOpeningTime").val(oDate);
                 $("#txtClosingTime").val(cDate);
                 $("#txtAddress").val($(jsonres)[0].Address);
@@ -736,7 +753,6 @@ function fnedit(id) {
                 $('#txtCuisine').multiselect('refresh');
                 if ($(jsonres)[0].Cuisine !== "" && $(jsonres)[0].Cuisine !== null && $(jsonres)[0].Cuisine !== undefined) {
                     var tmpArr = $(jsonres)[0].Cuisine.split(",");
-                    console.log(tmpArr);
                     $('#txtCuisine').multiselect('select', tmpArr);
                 }
                 //else {
@@ -796,7 +812,7 @@ function fndelete(id) {
         });
     }
 }
-function getCityByStateId(ele) {
+function getCityByStateId(ele, Cityid) {
     var obj = {
         stateid: ele.val()
     }
@@ -814,6 +830,33 @@ function getCityByStateId(ele) {
                 $.each(jsonres, function (i, ele) {
                     cityDrop.append($("<option></option>").val(ele.id).html(ele.name));
                 });
+                if (Cityid !== "" && Cityid !== null && Cityid !== undefined) {
+                    $('#txtCityEdit').val(Cityid);
+                }
+                else {
+                    if (jsonres.length > 0) {
+                        var obj = {
+                            fieldname: "Cityid",
+                            value: jsonres[0].id,
+                            id: $('#hdnId').val()
+                        }
+                        $.ajax({
+                            url: "Resturent.aspx/updateValues",
+                            data: JSON.stringify(obj),
+                            type: "POST",
+                            dataType: "json",
+                            contentType: "application/json; charset=utf-8",
+                            success: function (res) {
+                                if (res != null && res.d != null && res.d != undefined) {
+                                    $('#txtCityEdit').val(jsonres[0].id);
+                                }
+                            },
+                            error: function (e) {
+                            }
+                        });
+                        $('#txtCityEdit').val(Cityid);
+                    }
+                }
             }
         }
     });
