@@ -700,7 +700,9 @@ function ReloadDataTable(dataset) {
     })
 }
 function fnedit(id) {
-    //$("#collapse1").collapse('show');
+    if (!$('#collapse1').hasClass('in')) {
+        $("#collapsetitle1").click();
+    }
     $("#divGrid").fadeOut();
     $("#divForm").fadeIn();
     if (mapLoad == false) {

@@ -144,7 +144,7 @@
                     <div class="row" style="margin-bottom: 2%">
                         <div class="col-md-12">
                             <div class="btn-group" style="margin-top: 1%; width: 100%">
-                                <label style="color:red;float:left;font-weight:normal">* Click on labels to edit values</label>
+                                <label style="color: red; float: left; font-weight: normal">* Click on labels to edit values</label>
                                 <input type="button" style="margin-right: 2%" class="btn btn-danger pull-right" id="btnCancel" onclick="backRestaurants()" value="Back to list" />
                             </div>
                         </div>
@@ -268,10 +268,10 @@
                                             <label for="rdReservation">Reservation : </label>
                                             <div>
                                                 <label style="font-weight: normal">
-                                                    <input type="radio" name="rdReservation" value="Required" data-fieldname="Reservation"/>
+                                                    <input type="radio" name="rdReservation" value="Required" data-fieldname="Reservation" />
                                                     Required</label>
                                                 <label style="font-weight: normal">
-                                                    <input type="radio" name="rdReservation" value="NotRequired" data-fieldname="Reservation"/>
+                                                    <input type="radio" name="rdReservation" value="NotRequired" data-fieldname="Reservation" />
                                                     Not Required</label>
                                             </div>
                                         </div>
@@ -283,7 +283,7 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label for="restauHighlights">Highlights : </label>
-                                            <select id="restauHighlights" multiple="multiple"  class="multiselect" data-fieldname="Cuisine"></select>
+                                            <select id="restauHighlights" multiple="multiple" class="multiselect" data-fieldname="Cuisine"></select>
                                             <%--<div id="restauHighlights" style="border: 1px solid lightgray; padding: 4%; max-height: 200px; width: 60%; overflow: auto"></div>--%>
                                         </div>
                                     </div>
@@ -292,11 +292,11 @@
                                             <label for="">Payment Method : </label>
                                             <br />
                                             <label style="font-weight: normal">
-                                                <input type="checkbox" id="chckCash" class="payment" value="Cash" name="chckCash" data-fieldname="Payment"/>
+                                                <input type="checkbox" id="chckCash" class="payment" value="Cash" name="chckCash" data-fieldname="Payment" />
                                                 Cash</label>
                                             <br />
                                             <label style="font-weight: normal">
-                                                <input type="checkbox" id="chckCard" class="payment" value="Card Accepted" name="chckCard" data-fieldname="Payment"/>
+                                                <input type="checkbox" id="chckCard" class="payment" value="Card Accepted" name="chckCard" data-fieldname="Payment" />
                                                 Card Accepted</label>
 
                                         </div>
@@ -309,7 +309,7 @@
                                     <div class="col-md-12">
                                         <div class="panel-group" id="accordion">
                                             <div class="panel panel-default">
-                                                <div data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="panel-heading">
+                                                <div id="collapsetitle1" data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="panel-heading">
                                                     <h4 class="panel-title">
                                                         <a>Restaurent Menus</a>
                                                     </h4>
