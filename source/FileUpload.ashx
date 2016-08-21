@@ -16,7 +16,9 @@ public class FileUpload : IHttpHandler
         context.Response.ContentType = "text/plain";
         var files = context.Request.Files;
         var data = context.Request.Form;
-     
+
+        var path = context.Server.MapPath("/");
+
         if (files.Count > 0)
         {
             foreach (var file in files)
@@ -34,12 +36,14 @@ public class FileUpload : IHttpHandler
                             string fileName = Guid.NewGuid().ToString().Substring(0, 6) + "_" + context.Request.Files[file.ToString()].FileName;
                             List<SqlParameter> docparam = new List<SqlParameter>();
                             SqlParameter RestaurantId = new SqlParameter("@RestaurantId", data["hdnId"]);
-                            SqlParameter FileName = new SqlParameter("@FileName", fileName);
+                            SqlParameter FileName = new SqlParameter("@FileName", "~/Upload/RestauMenus/" + data["hdnId"] + "/" + fileName);
                             SqlParameter date = new SqlParameter("@date", DateTime.Now);
-                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", "~/Upload/RestauMenus/" + data["hdnId"] + "/" + fileName);
+                            SqlParameter AbsoluteURL = new SqlParameter("@AbsoluteURL", context.Request.Url.GetLeftPart(UriPartial.Authority) + "/Upload/RestauMenus/" + data["hdnId"] + "/" + fileName);
+                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", path + "Upload\\RestauMenus\\" + data["hdnId"] + "\\" + fileName);
                             docparam.Add(RestaurantId);
                             docparam.Add(FileName);
                             docparam.Add(AbsolutePath);
+                            docparam.Add(AbsoluteURL);
                             docparam.Add(date);
                             DataAccessCls docObj = new DataAccessCls();
                             System.Data.DataTable dt1 = docObj.RunSP_ReturnDT("pInsertRestauDocs", docparam, System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
@@ -65,8 +69,8 @@ public class FileUpload : IHttpHandler
                             string fileName = Guid.NewGuid().ToString().Substring(0, 6) + "_" + context.Request.Files[file.ToString()].FileName;
                             List<SqlParameter> docparam = new List<SqlParameter>();
                             SqlParameter RestaurantId = new SqlParameter("@RestaurantId", data["hdnId"]);
-                            SqlParameter FileName = new SqlParameter("@FileName", fileName);
-                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", "~/Upload/RestauDocs/" + data["hdnId"] + "/" + fileName);
+                            SqlParameter FileName = new SqlParameter("@FileName", "~/Upload/RestauDocs/" + data["hdnId"] + "/" + fileName);
+                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", path + "Upload\\RestauDocs\\" + data["hdnId"] + "\\" + fileName);
                             docparam.Add(RestaurantId);
                             docparam.Add(FileName);
                             docparam.Add(AbsolutePath);
@@ -94,7 +98,7 @@ public class FileUpload : IHttpHandler
                             string fileName = Guid.NewGuid().ToString().Substring(0, 6) + "_" + context.Request.Files[file.ToString()].FileName;
                             List<SqlParameter> docparam = new List<SqlParameter>();
                             SqlParameter RestaurantId = new SqlParameter("@RestaurantId", data["hdnId"]);
-                            SqlParameter FileName = new SqlParameter("@FileName", fileName);
+                            SqlParameter FileName = new SqlParameter("@FileName", "~/Upload/RestauPics/" + data["hdnId"] + "/" + fileName);
                             SqlParameter IsDefault;
                             if (file.ToString().Contains("defaultpics"))
                             {
@@ -104,7 +108,7 @@ public class FileUpload : IHttpHandler
                             {
                                 IsDefault = new SqlParameter("@IsDefault", 0);
                             }
-                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", "~/Upload/RestauPics/" + data["hdnId"] + "/" + fileName);
+                            SqlParameter AbsolutePath = new SqlParameter("@AbsolutePath", path + "Upload\\RestauPics\\" + data["hdnId"] + "\\" + fileName);
                             docparam.Add(RestaurantId);
                             docparam.Add(FileName);
                             docparam.Add(AbsolutePath);
