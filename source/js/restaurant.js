@@ -533,13 +533,13 @@ function getRestauMenusByRestau(restauId) {
                         a.addClass("boxclose");
                         a.attr("onclick", "deleteImage(this)");
                         a.attr("data-type", "menus");
-                        a.attr("data-path", ele.PhotoPath);
+                        a.attr("data-path", ele.Filename);
                         a.attr("data-rsid", restauId);
                         a.attr("data-rid", ele.PhotoNo);
                         a.attr("href", "javascript:;");
 
                         var image = $("<img  height='100' width='100'/>");
-                        image.attr("src", ele.PhotoPath.replace("~", ""));
+                        image.attr("src", ele.Filename.replace("~", ""));
                         div.append(image);
                         div.append(a);
                         $("#resMenus").append(div);
@@ -579,14 +579,13 @@ function getRestauDocsByRestau(restauId) {
                         a.addClass("boxclose");
                         a.attr("onclick", "deleteImage(this)");
                         a.attr("data-type", "docs");
-                        a.attr("data-path", ele.AbsolutePath);
+                        a.attr("data-path", ele.FileName);
                         a.attr("data-rsid", restauId);
                         a.attr("data-rid", ele.Id);
                         a.attr("href", "javascript:;");
 
                         var image = $("<img  height='100' width='100'/>");
-                        image.attr("src", ele.AbsolutePath.replace("~", ""));
-                        image.attr("alt", ele.FileName);
+                        image.attr("src", ele.FileName.replace("~", ""));
 
                         div.append(image);
                         div.append(a);
@@ -633,11 +632,11 @@ function getRestauPicsByRestau(restauId) {
                         a.attr("data-rid", ele.Id);
                         a.attr("data-rsid", restauId);
 
-                        a.attr("data-path", ele.AbsolutePath);
+                        a.attr("data-path", ele.FileName);
                         a.attr("data-type", "pics");
                         a.attr("onclick", "deleteImage(this)");
                         var image = $("<img  height='100' width='100' />");
-                        image.attr("src", ele.AbsolutePath.replace("~", ""));
+                        image.attr("src", ele.FileName.replace("~", ""));
                         div.append(image);
                         div.append(a);
 
