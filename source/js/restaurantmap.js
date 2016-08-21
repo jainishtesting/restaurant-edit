@@ -16,24 +16,7 @@ function geocodePosition(pos) {
         }
     });
 }
-
-function geocodePosition1(pos) {
-    geocoder.geocode({
-        latLng: pos
-    }, function (responses) {
-        if (responses && responses.length > 0) {
-            console.log(responses[0].formatted_address);
-            updateMarkerAddress1(responses[0].formatted_address);
-        } else {
-            updateMarkerAddress1('Cannot determine address at this location.');
-        }
-    });
-}
-
-function updateMarkerAddress1(str) {
-    document.getElementById("txtLocation").value = str;
-}
-
+ 
 function updateMarkerStatus(str) {
     //document.getElementById('markerStatus').innerHTML = str;
 }
@@ -46,7 +29,7 @@ function updateMarkerPosition(latLng) {
 }
 
 function updateMarkerAddress(str) {
-    document.getElementById("txtLocation").value = "";
+    document.getElementById("txtLocation").value = str;
 }
 
 function geocode() {
@@ -76,8 +59,7 @@ function initialize() {
     var latLng = new google.maps.LatLng(-34.397, 150.644);
 
     autocomplete = new google.maps.places.Autocomplete(document.getElementById('txtLocation'), { types: ['geocode'] });
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        //fillInAddress();
+    google.maps.event.addListener(autocomplete, 'place_changed', function () { 
         geocode();
     });
 
@@ -100,15 +82,11 @@ function initialize() {
 
     // Add dragging event listeners.
     google.maps.event.addListener(marker, 'dragstart', function () {
-        //updateMarkerAddress('Dragging...');
+        updateMarkerAddress('Dragging...');
     });
 
-    google.maps.event.addListener(marker, 'drag_changed', function () {
-        //updateMarkerStatus('Dragging...');
-        //console.log(marker);
-        //document.getElementById("txtLocation").value = marker.formatted_address;
-        geocodePosition1(marker.getPosition());
-        //updateMarkerPosition(marker.getPosition());
+    google.maps.event.addListener(marker, 'drag', function () {
+        updateMarkerStatus('Dragging...'); 
     });
 
     google.maps.event.addListener(marker, 'dragend', function () {
