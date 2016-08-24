@@ -1,10 +1,11 @@
-<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Resturent.aspx.cs" Inherits="Resturent" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="TrLink.aspx.cs" Inherits="TrLink" %>
+
 
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title>Resturent</title>
+    <title>TrLink</title>
     <script src="js/jquery-3.1.0.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="DataTables/datatables.min.js"></script>
@@ -27,11 +28,7 @@
 
 
     <style type="text/css">
-         /*.margin-top-70 {
-            margin-top: 70px;
-        }*/
-
-          .margin-top-20 {
+        .margin-top-20 {
             margin-top: 20px;
         }
 
@@ -39,7 +36,7 @@
             max-height: 250px !important;
         }
 
-        #resturantGrid_wrapper {
+        #trlinkgrid_wrapper {
             margin-top: 10px;
         }
 
@@ -107,7 +104,7 @@
             cursor: pointer;
         }
     </style>
-<%--   <nav class="navbar navbar-default navbar-fixed-top">
+ <%--   <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
@@ -120,8 +117,8 @@
             </div>
             <div class="navbar-collapse collapse" id="navbar">
                 <ul class="nav navbar-nav">
-                    <li class="active"><a href="Resturent.aspx">Restaurents</a></li>
-                    <li><a href="TrLink.aspx">TrLinks</a></li>
+                    <li><a href="Resturent.aspx">Restaurents</a></li>
+                    <li class="active"><a href="TrLink.aspx">TrLinks</a></li>
                 </ul> 
             </div>
             <!--/.nav-collapse -->
@@ -131,7 +128,7 @@
         <div id="divGrid">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Restaurent</h3>
+                    <h3 class="panel-title">TrLink</h3>
                 </div>
                 <div class="panel-body">
                     <div class="form-inline">
@@ -152,10 +149,10 @@
                             <input type="text" class="form-control" id="txtToDate" />
                         </div>
                         <div class="form-group">
-                            <input type="button" class="form-control btn btn-default" id="btnSearch" onclick="getRestaurants()" value="Search" />
+                            <input type="button" class="form-control btn btn-default" id="btnSearch" onclick="getTrlinks()" value="Search" />
                         </div>
                     </div>
-                    <table id="resturantGrid" class="display table table-striped table-bordered" width="100%"></table>
+                    <table id="trlinkgrid" class="display table table-striped table-bordered" width="100%"></table>
                 </div>
             </div>
         </div>
@@ -169,7 +166,7 @@
                         <div class="col-md-12">
                             <div class="btn-group" style="margin-top: 1%; width: 100%">
                                 <label style="color: red; float: left; font-weight: normal">* Click on labels to edit values</label>
-                                <input type="button" style="margin-right: 2%" class="btn btn-danger pull-right" id="btnCancel" onclick="backRestaurants()" value="Back to list" />
+                                <input type="button" style="margin-right: 2%" class="btn btn-danger pull-right" id="btnCancel" onclick="backTrLinks()" value="Back to list" />
                             </div>
                         </div>
                     </div>
@@ -422,7 +419,8 @@
 
         </div>
     </div>
-    <script src="js/restaurant.js"></script>
-    <script src="js/restaurantmap.js"></script>
+    <script src="js/trlink.js"></script>
+    <script src="js/trlinkmap.js"></script>
 </body>
 </html>
+
