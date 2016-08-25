@@ -107,7 +107,7 @@ function InitializeDataTable(dataset) {
         data: dataset,
         "aoColumnDefs": [
             {
-                "aTargets": [3],
+                "aTargets": [4],
                 //"mData": "download_link",
                 "mRender": function (data, type, full) {
                     if (data == true)
@@ -117,7 +117,7 @@ function InitializeDataTable(dataset) {
                 }
             },
             {
-                "aTargets": [4],
+                "aTargets": [5],
                 "mRender": function (data, type, full) {
                     return '<a onclick="fnedit(' + data + ')"><i class="glyphicon glyphicon-pencil"></i></a><a style="margin-left:10px;" onclick="fndelete(' + data + ',' + full.Id + ')"><i class="glyphicon glyphicon-remove"></i></a>'
                 }
@@ -127,6 +127,7 @@ function InitializeDataTable(dataset) {
             { data: "LinkHeading", title: "Link Heading" },
             { data: "MainSubCategoryName", title: "City" },
             { data: "Metadata", title: "Metadata" },
+            { data: "DateOfLinkAddition", title: "Date of link addition" },
             { data: "IsActive", title: "Active" },
             { data: "LinkId", title: "Action" }
         ],
