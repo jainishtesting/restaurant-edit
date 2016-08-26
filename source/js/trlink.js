@@ -127,7 +127,7 @@ function InitializeDataTable(dataset) {
             { data: "LinkHeading", title: "Link Heading" },
             { data: "MainSubCategoryName", title: "City" },
             { data: "Metadata", title: "Metadata" },
-            { data: "DateOfLinkAddition", title: "Date of link addition" },
+            { data: "DateOfLinkAddition", title: "Addition Date" },
             { data: "IsActive", title: "Active" },
             { data: "LinkId", title: "Action" }
         ],
