@@ -13,7 +13,9 @@ $(function () {
     $('#txtToDate').datepicker({
         autoclose: true
     });
-    $(".datepicker").datetimepicker();
+    $(".datepicker").datetimepicker({
+        format: 'LT' 
+    });
     $(".datepicker").on("dp.change", function (e) {
         var obj = {
             fieldname: $(e.currentTarget).data("fieldname"),
@@ -94,7 +96,7 @@ function formatDate(dateVal) {
 
     sHour = padValue(sHour);
 
-    return sMonth + "/" + sDay + "/" + sYear + " " + sHour + ":" + sMinute + " " + sAMPM;
+    return sHour + ":" + sMinute + " " + sAMPM;
 }
 
 function padValue(value) {
