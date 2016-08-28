@@ -154,15 +154,18 @@ public partial class Resturent : System.Web.UI.Page
     [WebMethod]
     public static string updateValues(string fieldname, string value, int id)
     {
+        HttpContext.Current.Session["UserId"] = 2;
         List<SqlParameter> param = new List<SqlParameter>();
         SqlParameter pkey = new SqlParameter("@fieldname", fieldname);
         SqlParameter pcityid = new SqlParameter("@value", value);
         SqlParameter pfromdate = new SqlParameter("@Id", id);
+        SqlParameter pUserId = new SqlParameter("@UserId", HttpContext.Current.Session["UserId"]);
         SqlParameter ptodate = new SqlParameter("@LinkMain", HttpContext.Current.Request.Url + "?LinkId=" + id);
         param.Add(pkey);
         param.Add(pcityid);
         param.Add(pfromdate);
         param.Add(ptodate);
+        param.Add(pUserId);
 
         DataAccessCls dObj = new DataAccessCls();
         DataTable dt = dObj.RunSP_ReturnDT("sp_UpdateFields", param, ConfigurationManager.ConnectionStrings["DefaultConnection"].ToString());
