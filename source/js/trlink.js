@@ -75,7 +75,7 @@ function getCity() {
 }
 
 function formatDate(dateVal) {
-    var newDate = new Date(dateVal);
+    var newDate = new Date(dateVal.replace("T", " "));
 
     var sMonth = padValue(newDate.getMonth() + 1);
     var sDay = padValue(newDate.getDate());
